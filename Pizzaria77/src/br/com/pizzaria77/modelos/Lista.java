@@ -5,80 +5,36 @@ import javax.swing.JOptionPane;
 public class Lista
 {
 	int size;
-	Node node, start, end;
-	
-	public void insert(int element)
+	Pizza pizza;
+		
+	public Lista()
 	{
-		Node novo = start;
-		novo.node = element;
-		novo.next = null;
-		start = novo;
-		end = novo;
-		size++;
+		pizza = new Pizza();
 	}
 	
-	public void insertEnd(int element)
+	public void newRequest(Pizza p)
 	{
 		if(size == 0)
 		{
-			Node novo = start;
-			novo.node = element;
+			Pizza novo = pizza.first;
+			novo.code = p;
 			novo.next = null;
-			start = novo;
-			end = novo;
+			pizza.first = novo;
+			pizza.last = novo;
 			size = 1;
 		}
 		else
 		{
-			Node novo = start;
-			novo.node = element;
+			Pizza novo = pizza.first;
+			novo.code = p;
 			novo.next = null;
-			end.next = novo;
-			end = novo;
+			pizza.last.next = novo;
+			pizza.last = novo;
 			size ++;
 		}
 	}
 	
-	public void removeStart()
-	{
-		if(size == 0) 
-		{
-			throw new RuntimeException();
-		}
-		else 
-		{
-			if(size == 1) //elemento no inicio
-			{
-				int aux = start.element;
-				start = null;
-				end = null;
-				size = 0;
-				JOptionPane.showMessageDialog(null, "O elemento "+aux+", foi removido do inicio!");
-			}
-			else 
-			{
-				int aux = start.element;
-				start = start.next;
-				size --;
-				JOptionPane.showMessageDialog(null, "O elemento "+aux+", foi removido do inicio!");
-			}
-				if(size > 2)
-				{
-					int aux = end.element;
-					Node ref = start;
-					while(ref.next != end)
-					{
-						ref = ref.next;
-					}
-					ref.next = null;
-					end = ref;
-					size --;
-					JOptionPane.showMessageDialog(null, "O elemento "+aux+", foi removido do inicio!");
-				}
-		}
-	}
-	
-	public void removeEnd()
+	public void cancelRequest(int guestNumber)
 	{
 		int aux = 0;
 		if(size == 0)
@@ -89,27 +45,102 @@ public class Lista
 		{
 			if(size == 1)
 			{
-				aux = end.node;
-				start = null;
-				end = null;
+				aux = pizza.last.code;
+				pizza.first = null;
+				pizza.last = null;
 				size = 0;
-				JOptionPane.showMessageDialog(null, "O ultimo elemento: "+aux+", foi removido");
+				JOptionPane.showMessageDialog(null, "O elemento procurado: "+aux+", foi removido");
 			}
 			else
 			{
-				aux = end.node;
-				end.next = null;
+				aux = pizza.last.code;
+				pizza.last.next = null;
 				size--;
-				JOptionPane.showMessageDialog(null, "O ultimo elemento "+aux+", foi removido!");
+				JOptionPane.showMessageDialog(null, "O elemento procurado: "+aux+", foi removido!");
 			}
 		}
 	}
-
-	public void bubbleSort(Node pizza, int size) {
+	
+	/**
+	 * attend() atende o primeiro cliente da fila
+	 * logo, removendo o primeiro da fila
+	 */
+	public void attend()
+	{
+		if(size == 0) 
+		{
+			throw new RuntimeException();
+		}
+		else 
+		{
+			if(size == 1) //elemento no inicio
+			{
+				int aux = pizza.first.code;
+				pizza.first = null;
+				pizza.last = null;
+				size = 0;
+				JOptionPane.showMessageDialog(null, "O elemento "+aux+", foi removido do inicio!");
+			}
+			else 
+			{
+				int aux = pizza.first.code;
+				pizza.first = pizza.first.next;
+				size --;
+				JOptionPane.showMessageDialog(null, "O elemento "+aux+", foi removido do inicio!");
+			}
+				if(size > 2)
+				{
+					int aux = pizza.last.code;
+					Pizza ref = pizza.first;
+					while(ref.next != pizza.last)
+					{
+						ref = ref.next;
+					}
+					ref.next = null;
+					pizza.last = ref;
+					size --;
+					JOptionPane.showMessageDialog(null, "O elemento "+aux+", foi removido do inicio!");
+				}
+		}
+	}
+	
+	/**
+	 * métodos de odenação que recebe como parametro o numero do pedido
+	 * @throws Exception
+	 */
+		
+	public String sortByPriority(Pizza pizza) throws Exception
+	{
+		return null;
+	}
+	
+	public String sortByNumberRequest(int num) throws Exception
+	{
+		return null;
+	}
+	
+	/**
+	 *	updateRequest, método que atualiza o pedido
+	 */
+	
+	public void updateRequest(int num, int codePizza)
+	{
+		linearSearchRequestToUpdate(num);
+	}
+	
+	
+	
+	/**
+	 * Método de ordenaçao que recebe como parametro pizza e o tamanho
+	 * @param pizza
+	 * @param size
+	 */
+	
+	public void bubbleSort(Pizza pizza, int size) {
 		for (int i = 1; i <= size - 1; i++) {
 			for (int j = 0; j < size - 1; j++) {
 				if (pizza.pizza.priority > pizza.next.pizza.priority) {
-					Node aux = pizza;
+					Pizza aux = pizza;
 					pizza = pizza.next;
 					pizza.next = aux;
 				}
@@ -121,11 +152,12 @@ public class Lista
 	 * Falha, se forem incluidas 3 pizzas seguidas de mesmo codigo a posicao
 	 * retornada sera a da primeira pizza de mesmo codigo...
 	 */
-	public int linearSearch(Node pizza, int codPizza) {
+	public Pizza linearSearchRequestToUpdate(int numeroPedido) {
 		for (int i = 0; i < size; i++) {
-			if (pizza.element == codPizza)
-				return i;
+			if (pizza.requestNumber == numeroPedido)
+				return pizza;
+			pizza = pizza.next;
 		}
-		return -1;
+		return null;
 	}
 }
