@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.sql.Connection;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,7 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class CancelarDialogo extends JFrame implements ActionListener {
+public class CancelarDialogo extends JDialog implements ActionListener {
 	private JTextArea texto;
 	private JTextField numPedido, pizza;
 	private FlowLayout flwLayout;
@@ -24,7 +25,7 @@ public class CancelarDialogo extends JFrame implements ActionListener {
 
 	public CancelarDialogo() {
 		
-		super("Cancelar pedido");
+		super(new JFrame(), true);
 		flwLayout = new FlowLayout(FlowLayout.CENTER, 50, 20);
 		container1 = getContentPane();
 		container1.setLayout(flwLayout);
@@ -48,22 +49,26 @@ public class CancelarDialogo extends JFrame implements ActionListener {
 		this.setSize(300, 470);
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
+		this.setTitle("Alterar pedido");
+
 	}
 
+	public int toInt(String campo) {
+		return Integer.parseInt(campo);
+	}
 	public void actionPerformed(ActionEvent e) 
 	{
 		if(e.getSource() == botao1)
 		{
 			//ação
-			numPedido.getText();
-			
+			ListaPedidos.cancelaPedido(toInt(numPedido.getText()));
 			JOptionPane.showMessageDialog(null, "Pedido cancelado! ");
 			numPedido.setText(null);
 		}
 		
 		if(e.getSource() == botao2)
 		{
-			System.exit(1);
+			dispose();
 		}
 	}
 }
