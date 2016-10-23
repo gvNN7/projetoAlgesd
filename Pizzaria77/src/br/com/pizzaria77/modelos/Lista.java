@@ -105,23 +105,23 @@ public class Lista
 		}
 	}
 
-//	public void bubbleSort(Node pizza, int size) {
-//		for (int i = 1; i <= size - 1; i++) {
-//			for (int j = 0; j < size - 1; j++) {
-//				if (pizza.priority > pizza.next.priority) {
-//					Node aux = pizza;
-//					pizza = pizza.next;
-//					pizza.next = aux;
-//				}
-//			}
-//		}
-//	}
+	public void bubbleSort(Node pizza, int size) {
+		for (int i = 1; i <= size - 1; i++) {
+			for (int j = 0; j < size - 1; j++) {
+				if (pizza.pizza.priority > pizza.next.pizza.priority) {
+					Node aux = pizza;
+					pizza = pizza.next;
+					pizza.next = aux;
+				}
+			}
+		}
+	}
 
 	/**
 	 * Falha, se forem incluidas 3 pizzas seguidas de mesmo codigo a posicao
 	 * retornada sera a da primeira pizza de mesmo codigo...
 	 */
-	public int buscaLinear(Node pizza, int codPizza) {
+	public int linearSearch(Node pizza, int codPizza) {
 		for (int i = 0; i < size; i++) {
 			if (pizza.element == codPizza)
 				return i;
