@@ -105,17 +105,17 @@ public class Lista
 		}
 	}
 
-	public void bubbleSort(Node pizza, int size) {
-		for (int i = 1; i <= size - 1; i++) {
-			for (int j = 0; j < size - 1; j++) {
-				if (pizza.priority > pizza.next.priority) {
-					Node aux = pizza;
-					pizza = pizza.next;
-					pizza.next = aux;
-				}
-			}
-		}
-	}
+//	public void bubbleSort(Node pizza, int size) {
+//		for (int i = 1; i <= size - 1; i++) {
+//			for (int j = 0; j < size - 1; j++) {
+//				if (pizza.priority > pizza.next.priority) {
+//					Node aux = pizza;
+//					pizza = pizza.next;
+//					pizza.next = aux;
+//				}
+//			}
+//		}
+//	}
 
 	/**
 	 * Falha, se forem incluidas 3 pizzas seguidas de mesmo codigo a posicao
