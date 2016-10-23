@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 public class Pizza 
 {
-	int numberGuest;
+	int numberRequest;
 	int code;
 	int priority;
 	Node node, start, end;
@@ -15,22 +15,22 @@ public class Pizza
 		
 	}
 	
-	public void newGuest(int cod, int prio)
+	public void newRequest(int cod, int prio)
 	{
 		//no.setNode(int cod, int prio);
-		numberGuest++;
+		numberRequest++;
 		code = cod;
 		priority = prio;
 		
 	}
 	
-	public String updateGuest() throws Exception
+	public String updateRequest() throws Exception
 	{
 		return null;
 		
 	}
 	
-	public void cancelGuest(int guest)
+	public void cancelRequest(int request)
 	{
 		if(lista.size == 0)
 		{
@@ -41,7 +41,7 @@ public class Pizza
 			if(lista.size == 1)
 			{
 				int aux = start.node;
-				if(aux == guest)
+				if(aux == request)
 				{
 					node = null;
 					start = null;
@@ -55,7 +55,7 @@ public class Pizza
 				Node ref = start;
 				while(ref.next != null)
 				{
-					if(ref.node == guest)
+					if(ref.node == request)
 					{
 						//ref.node.last;
 						//ref.node = null;
@@ -72,7 +72,7 @@ public class Pizza
 		return null;
 	}
 	
-	public String sortByNumberGuest() throws Exception
+	public String sortByNumberRequest() throws Exception
 	{
 		return null;
 	}
