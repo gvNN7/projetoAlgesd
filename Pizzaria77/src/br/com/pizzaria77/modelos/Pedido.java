@@ -2,7 +2,7 @@ package br.com.pizzaria77.modelos;
 
 public class Pedido {
 
-	private Pedido proximo, primeiro, ultimo, anterior;
+	private Pedido anterior, proximo, primeiro, ultimo;
 	private int prioridade;
 	private int numeroPedido;
 	private Pizza pizza;
@@ -10,7 +10,11 @@ public class Pedido {
 	public Pedido(int numeroPedido, int prioridade, int codPizza) {
 		this.numeroPedido = numeroPedido;
 		this.prioridade = prioridade;
+		this.proximo  = null;
 		pizza = new Pizza(codPizza);
+	}
+
+	public Pedido() {
 	}
 
 	public void setAnterior(Pedido anterior) {
@@ -30,6 +34,7 @@ public class Pedido {
 	}
 
 	public void setPrimeiro(Pedido primeiro) {
+
 		this.primeiro = primeiro;
 	}
 
@@ -53,6 +58,10 @@ public class Pedido {
 		return prioridade;
 	}
 	
+	
+	public void setNumeroPedido(int numeroPedido) {
+		this.numeroPedido = numeroPedido;
+	}
 	public int getNumeroPedido() {
 		return numeroPedido;
 	}

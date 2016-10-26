@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 public class ListaPedidos {
 	static int tamanho = 0;
-	static Pedido pedido ;
+	static Pedido pedido = new Pedido() ;
 
 	/**
 	 * O método novoPedido tem comportamento de um metodo de inserir o ultimo
@@ -16,23 +16,23 @@ public class ListaPedidos {
 	 */
 	public static void novoPedido(int numeroPedido, int prioridade, int codPizza) {
 		Pedido novoPedido = new Pedido(numeroPedido, prioridade, codPizza);
-		
-		if (tamanho == 0) {
+		if (tamanho == 0) {			
 			pedido = novoPedido;
 			pedido.setPrimeiro(pedido);
 			pedido.setUltimo(pedido);
+			pedido.setAnterior(null);
 			pedido.setProximo(null);
-			tamanho = 1;
+			tamanho ++;
 		} else if(tamanho == 1) {
 			pedido.setProximo(novoPedido);
+			pedido.getProximo().setAnterior(pedido.getPrimeiro());
 			pedido.setUltimo(novoPedido);
 			tamanho++;
-			sortByPriority();
 		} else{
 			pedido.getUltimo().setProximo(novoPedido);
+			pedido.getUltimo().getProximo().setAnterior(pedido.getUltimo());
 			pedido.setUltimo(novoPedido);
 			tamanho++;
-			sortByPriority();
 		}
 	}
 
@@ -40,17 +40,28 @@ public class ListaPedidos {
 	 * Algoritmo de ordenação tipo bolha, ordena os pedidos por prioridade
 	 */
 	public static void sortByPriority() {
-		Pedido pedidoAux = pedido;
-		for (int i = 1; i <= tamanho - 1; i++)
-			for (int j = 0; j < tamanho - 1; j++){
-				if (pedidoAux.getPrioridade() > pedidoAux.getProximo().getPrioridade()) {
-					Pedido aux = pedidoAux;
-					pedidoAux = pedidoAux.getProximo();
-					pedidoAux.setProximo(aux);
-				}else{
-					pedidoAux = pedidoAux.getProximo();
+
+		Pedido pedidoAux;
+		Pedido pedPivo = pedido.getPrimeiro();
+		boolean t = true;
+		while(t)
+		{
+			t = false;
+
+			for(int i = 0; i < tamanho-1 ; i++)
+			{
+				if(pedPivo.getPrioridade() > pedPivo.getProximo().getPrioridade())
+				{
+					pedidoAux = pedPivo;
+					pedPivo = pedPivo.getProximo();
+					pedPivo.setProximo(pedidoAux);
+					t=true;
 				}
 			}
+			pedPivo = pedPivo.getProximo();
+		}
+		return vec;
+		
 	}
 
 	/**
