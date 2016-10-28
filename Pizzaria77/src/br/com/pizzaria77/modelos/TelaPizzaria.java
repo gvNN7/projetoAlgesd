@@ -133,13 +133,13 @@ public class TelaPizzaria extends JPanel {
 				listaPedidos = novoP.getListaPedidos();
 				areaPedidos.setText("");
 				areaPedidos.setText(listaPedidos.imprimeLista());
-				JOptionPane.showMessageDialog(null, listaPedidos.imprimeLista());
 			}
 		});
 		this.alteraPedido.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent click) {
 				AlterarPedidoDialogo alt = new AlterarPedidoDialogo(listaPedidos);
+				areaPedidos.setText("");
 				areaPedidos.setText(listaPedidos.imprimeLista());
 			}
 		});
@@ -154,18 +154,17 @@ public class TelaPizzaria extends JPanel {
 		this.ordenaPedidos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent click) {
-				//TODO
 				ListaPedidos listaOrdenadaPrioridade = ListaPedidos.sortByPriority(listaPedidos);
+				areaPedidos.setText("");
 				areaPedidos.setText(listaOrdenadaPrioridade.imprimeLista());
-				JOptionPane.showMessageDialog(null, listaOrdenadaPrioridade.imprimeLista());
 			}
 		});
 		
 		this.atendePedido.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent click) {
-				
 				listaPedidos.attend();
+				areaPedidos.setText("");
 				areaPedidos.setText(listaPedidos.imprimeLista());
 			}
 		});

@@ -71,10 +71,10 @@ public class AlterarPedidoDialogo extends JDialog implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == botao1) {
-			// ação
 
-			listaPedidos.updateRequest(toInt(numPedido.getText()),pizza.getSelectedIndex(),prioridade.getSelectedIndex());
+			listaPedidos.updateRequest(toInt(numPedido.getText()),pizza.getSelectedIndex(),toInt(prioridade.getSelectedItem().toString()));
 			JOptionPane.showMessageDialog(null, "Pedido alterado! ");
+			dispose();
 		}
 		if (e.getSource() == botao2) {
 			dispose();
