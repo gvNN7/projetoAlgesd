@@ -6,22 +6,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 public class NovoPedidoDialogo extends JDialog implements ActionListener {
-	private JTextField numPedido, pizza, prioridade;
+	private JTextField numPedido;
+	private JComboBox prioridade,pizza;
+	
 	private FlowLayout flwLayout;
 	private Container container1;
 	private JLabel label, label1, label2, label3;
 	private JButton botao1, botao2;
+	private ListaPedidos listaPedidos;
 
-	public NovoPedidoDialogo() {
+	public NovoPedidoDialogo(ListaPedidos listaPedidos) {
 
 		super(new JFrame(), true);
 		flwLayout = new FlowLayout(FlowLayout.CENTER, 50, 20);
@@ -31,10 +33,11 @@ public class NovoPedidoDialogo extends JDialog implements ActionListener {
 		label2 = new JLabel("Pizza             ");
 		label3 = new JLabel("Prioridade   ");
 		numPedido = new JTextField(10);
-		pizza = new JTextField(10);
-		prioridade = new JTextField(10);
+		pizza =  new JComboBox(Pizza.getPizzas());
+		prioridade = new JComboBox(new String[] {"1","2","3"});
 		botao1 = new JButton("Incluir pedido");
 		botao2 = new JButton("Cancelar");
+		this.listaPedidos = listaPedidos;
 
 		// Adicionando ao Label
 		container1.add(label1);
@@ -54,14 +57,17 @@ public class NovoPedidoDialogo extends JDialog implements ActionListener {
 
 	}
 
+	public ListaPedidos getListaPedidos() {
+		return this.listaPedidos;
+	}
+
 	public int toInt(String campo) {
 		return Integer.parseInt(campo);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == botao1) {
-			// ação
-			ListaPedidos.novoPedido(toInt(numPedido.getText()), toInt(prioridade.getText()), toInt(pizza.getText()));
+			listaPedidos.novoPedido(toInt(numPedido.getText()), toInt(prioridade.getSelectedItem().toString()), pizza.getSelectedIndex());
 			JOptionPane.showMessageDialog(null, "Pedido incluido! ");
 			dispose();
 		}

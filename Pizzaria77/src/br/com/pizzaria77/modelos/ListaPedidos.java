@@ -3,8 +3,8 @@ package br.com.pizzaria77.modelos;
 import javax.swing.JOptionPane;
 
 public class ListaPedidos {
-	static int tamanho = 0;
-	static Pedido pedido = new Pedido() ;
+	private int tamanho = 0;
+	private Pedido primeiro, ultimo;
 
 	/**
 	 * O método novoPedido tem comportamento de um metodo de inserir o ultimo
@@ -14,24 +14,23 @@ public class ListaPedidos {
 	 * @param codPizza
 	 * @param prioridade
 	 */
-	public static void novoPedido(int numeroPedido, int prioridade, int codPizza) {
+	public void novoPedido(int numeroPedido, int prioridade, int codPizza) {
 		Pedido novoPedido = new Pedido(numeroPedido, prioridade, codPizza);
-		if (tamanho == 0) {			
-			pedido = novoPedido;
-			pedido.setPrimeiro(pedido);
-			pedido.setUltimo(pedido);
-			pedido.setAnterior(null);
-			pedido.setProximo(null);
-			tamanho ++;
-		} else if(tamanho == 1) {
-			pedido.setProximo(novoPedido);
-			pedido.getProximo().setAnterior(pedido.getPrimeiro());
-			pedido.setUltimo(novoPedido);
+		if (tamanho == 0) {
+			primeiro = novoPedido;
+			primeiro.setAnterior(null);
+			primeiro.setProximo(null);
+			ultimo = primeiro;
 			tamanho++;
-		} else{
-			pedido.getUltimo().setProximo(novoPedido);
-			pedido.getUltimo().getProximo().setAnterior(pedido.getUltimo());
-			pedido.setUltimo(novoPedido);
+		} else if (tamanho == 1) {
+			primeiro.setProximo(novoPedido);
+			primeiro.getProximo().setAnterior(primeiro);
+			ultimo = novoPedido;
+			tamanho++;
+		} else {
+			ultimo.setProximo(novoPedido);
+			ultimo.getProximo().setAnterior(ultimo);
+			ultimo = novoPedido;
 			tamanho++;
 		}
 	}
@@ -39,29 +38,24 @@ public class ListaPedidos {
 	/**
 	 * Algoritmo de ordenação tipo bolha, ordena os pedidos por prioridade
 	 */
-	public static void sortByPriority() {
+	public static ListaPedidos sortByPriority(ListaPedidos lista) {
 
-		Pedido pedidoAux;
-		Pedido pedPivo = pedido.getPrimeiro();
-		boolean t = true;
-		while(t)
-		{
-			t = false;
+		ListaPedidos listaPrioridade = new ListaPedidos();
 
-			for(int i = 0; i < tamanho-1 ; i++)
-			{
-				if(pedPivo.getPrioridade() > pedPivo.getProximo().getPrioridade())
-				{
-					pedidoAux = pedPivo;
-					pedPivo = pedPivo.getProximo();
-					pedPivo.setProximo(pedidoAux);
-					t=true;
+		// Pedido primeiroAux = primeiro;
+
+		for (int i = 1; i < 4; i++) {
+			Pedido auxiliar = lista.primeiro;
+			while (auxiliar != null) {
+				if (auxiliar.getPrioridade() == i) {
+					listaPrioridade.novoPedido(auxiliar.getNumeroPedido(), auxiliar.getPrioridade(),
+							auxiliar.getPizza());
 				}
+				auxiliar = auxiliar.getProximo();
 			}
-			pedPivo = pedPivo.getProximo();
 		}
-		return vec;
-		
+		return listaPrioridade;
+
 	}
 
 	/**
@@ -70,13 +64,13 @@ public class ListaPedidos {
 	 * 
 	 * @param numeroPedido
 	 */
-	public static void cancelaPedido(int numeroPedido) {
+	public void cancelaPedido(int numeroPedido) {
 		if (tamanho == 0) {
 			JOptionPane.showMessageDialog(null, "Lista de pedidos vazia!!!");
 		} else {
 			if (tamanho == 1) {
-				pedido.setPrimeiro(null);
-				pedido.setUltimo(null);
+				primeiro = null;
+				ultimo = null;
 				tamanho = 0;
 				JOptionPane.showMessageDialog(null, "O pedido: " + numeroPedido + ", foi cancelado");
 			} else {
@@ -90,8 +84,8 @@ public class ListaPedidos {
 	/**
 	 * Algoritmo de busca linear, realiza busca pelo pedido solicitado
 	 */
-	public static Pedido buscaPedido(int numeroPedido) {
-		Pedido pedidoAux = pedido.getPrimeiro();
+	public Pedido buscaPedido(int numeroPedido) {
+		Pedido pedidoAux = primeiro;
 		for (int i = 0; i < tamanho; i++) {
 			if (pedidoAux.getNumeroPedido() == numeroPedido)
 				return pedidoAux;
@@ -109,12 +103,12 @@ public class ListaPedidos {
 			JOptionPane.showMessageDialog(null, "Lista de pedidos vazia!!!");
 		} else {
 			if (tamanho == 1) {
-				pedido.setPrimeiro(null);
-				pedido.setUltimo(null);
+				primeiro = null;
+				ultimo = null;
 				tamanho = 0;
 				JOptionPane.showMessageDialog(null, "Pedido atendido");
 			} else {
-				pedido.setPrimeiro(pedido.getPrimeiro().getProximo());
+				primeiro = primeiro.getProximo();
 				tamanho--;
 				JOptionPane.showMessageDialog(null, "Pedido atendido");
 			}
@@ -124,31 +118,28 @@ public class ListaPedidos {
 	/**
 	 * updateRequest, método que atualiza o pedido
 	 */
-	public static void updateRequest(int numeroPedido, int codePizza) {
+	public  void updateRequest(int numeroPedido, int prioridade, int codePizza)  {
 		buscaPedido(numeroPedido).setPizza(codePizza);
+		buscaPedido(numeroPedido).setPrioridade(prioridade);
 	}
-	
-	public static String imprimeLista() {
 
-		  // Verificando se a Lista está vazia
-		  if(tamanho == 0){
-		    return "";
-		  }
-		  
-		  StringBuilder builder = new StringBuilder("");
-		  Pedido atual = pedido.getPrimeiro();
+	public String imprimeLista() {
 
-		  // Percorrendo até o penúltimo elemento.
-		  for (int i = 0; i < tamanho - 1; i++) {
-		    builder.append(atual.getNumeroPedido() + "-" +atual.getPrioridade());
-		    builder.append(" | ");
-		    atual = atual.getProximo();
-		  }
+		if (tamanho == 0) {
+			return "";
+		}
 
-		  // último elemento
-		  builder.append(atual.getNumeroPedido() + "-" +atual.getPrioridade());
-		  builder.append("");
-		  
-		  return builder.toString();
-		} 
+		StringBuilder builder = new StringBuilder("");
+		Pedido atual = primeiro;
+
+		for (int i = 0; i < tamanho; i++) {
+			builder.append("nº pedido" + atual.getNumeroPedido() + "- Prio " + atual.getPrioridade() + "- pizza "
+					+ atual.getPizza());
+			builder.append(" \n ");
+			atual = atual.getProximo();
+		}
+
+		builder.append("");
+		return builder.toString();
+	}
 }

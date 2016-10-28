@@ -22,8 +22,9 @@ public class CancelarDialogo extends JDialog implements ActionListener {
 	private Container container1;
 	private JLabel label, label1, label2;
 	private JButton botao1, botao2;
+	private ListaPedidos listaPedidos;
 
-	public CancelarDialogo() {
+	public CancelarDialogo(ListaPedidos listaPedidos) {
 		
 		super(new JFrame(), true);
 		flwLayout = new FlowLayout(FlowLayout.CENTER, 50, 20);
@@ -35,7 +36,8 @@ public class CancelarDialogo extends JDialog implements ActionListener {
 		numPedido = new JTextField(10);
 		botao1 = new JButton("Cancelar pedido");
 		botao2 = new JButton("Cancelar");
-		
+		this.listaPedidos = listaPedidos;
+
 		//Adicionando ao Label
 		container1.add(label);
 		container1.add(texto);
@@ -52,6 +54,9 @@ public class CancelarDialogo extends JDialog implements ActionListener {
 		this.setTitle("Alterar pedido");
 
 	}
+	public ListaPedidos getListaPedidos() {
+		return this.listaPedidos;
+	}
 
 	public int toInt(String campo) {
 		return Integer.parseInt(campo);
@@ -61,7 +66,7 @@ public class CancelarDialogo extends JDialog implements ActionListener {
 		if(e.getSource() == botao1)
 		{
 			//ação
-			ListaPedidos.cancelaPedido(toInt(numPedido.getText()));
+			listaPedidos.cancelaPedido(toInt(numPedido.getText()));
 			JOptionPane.showMessageDialog(null, "Pedido cancelado! ");
 			numPedido.setText(null);
 		}

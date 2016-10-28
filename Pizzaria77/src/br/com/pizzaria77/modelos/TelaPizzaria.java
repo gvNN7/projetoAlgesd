@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
@@ -12,6 +13,7 @@ import java.util.ResourceBundle;
 //Exemplo de Diálogo por Método 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -28,6 +30,7 @@ public class TelaPizzaria extends JPanel {
 	private JTextArea areaPedidos;
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private JPanel fieldsPanel;
+	private ListaPedidos listaPedidos;
 
 	/**
 	 * Constructor of panel to ComplexBuilding's CRUD
@@ -41,7 +44,7 @@ public class TelaPizzaria extends JPanel {
 		this.alteraPedido = new JButton("Alterar");
 		this.atendePedido = new JButton("Atender");
 		this.ordenaPedidos = new JButton("Ordenar");
-
+		this.listaPedidos = new ListaPedidos();
 		
 		this.areaPedidos = new JTextArea(25,25);
 		this.areaPedidos.setEnabled(false);
@@ -126,40 +129,44 @@ public class TelaPizzaria extends JPanel {
 		this.novoPedido.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent click) {
-				NovoPedidoDialogo novoP = new NovoPedidoDialogo();
+				NovoPedidoDialogo novoP = new NovoPedidoDialogo(listaPedidos);
+				listaPedidos = novoP.getListaPedidos();
 				areaPedidos.setText("");
-
-				areaPedidos.setText(ListaPedidos.imprimeLista());
+				areaPedidos.setText(listaPedidos.imprimeLista());
+				JOptionPane.showMessageDialog(null, listaPedidos.imprimeLista());
 			}
 		});
 		this.alteraPedido.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent click) {
-				AlterarPedidoDialogo alt = new AlterarPedidoDialogo();
-				areaPedidos.setText(ListaPedidos.imprimeLista());
+				AlterarPedidoDialogo alt = new AlterarPedidoDialogo(listaPedidos);
+				areaPedidos.setText(listaPedidos.imprimeLista());
 			}
 		});
 		this.cancelaPedido.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent click) {
-				CancelarDialogo canc = new CancelarDialogo();
+				CancelarDialogo canc = new CancelarDialogo(listaPedidos);
 				areaPedidos.setText("");
-				areaPedidos.setText(ListaPedidos.imprimeLista());
+				areaPedidos.setText(listaPedidos.imprimeLista());
 			}
 		});
 		this.ordenaPedidos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent click) {
 				//TODO
-				areaPedidos.setText(ListaPedidos.imprimeLista());
+				ListaPedidos listaOrdenadaPrioridade = ListaPedidos.sortByPriority(listaPedidos);
+				areaPedidos.setText(listaOrdenadaPrioridade.imprimeLista());
+				JOptionPane.showMessageDialog(null, listaOrdenadaPrioridade.imprimeLista());
 			}
 		});
 		
 		this.atendePedido.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent click) {
-				//TODO
-				areaPedidos.setText(ListaPedidos.imprimeLista());
+				
+				listaPedidos.attend();
+				areaPedidos.setText(listaPedidos.imprimeLista());
 			}
 		});
 		
